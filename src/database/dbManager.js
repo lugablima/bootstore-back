@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 // eslint-disable-next-line import/no-unresolved
 import jwt from "jsonwebtoken";
-import { db } from "./mongodb.js";
+import { db, ObjectId } from "./mongodb.js";
 
 const DAYS_10 = 60 * 60 * 24 * 10;
 
@@ -49,4 +49,14 @@ export async function findCards(user) {
 export async function createCard(user, card) {
   // eslint-disable-next-line no-underscore-dangle
   await db.collection("cards").insertOne({ ...card, userId: user._id });
+}
+
+export async function findCard(id, user) {
+  // eslint-disable-next-line no-underscore-dangle
+  const card = await db.collection("cards").findOne({ _id: new ObjectId(id), userId: user._id });
+  return card;
+}
+
+export async function deleteOneCard(card) {
+  await db.collection("cards").deleteOne(card);
 }

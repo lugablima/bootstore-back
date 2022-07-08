@@ -8,4 +8,6 @@ const newCardSchema = joi.object({
   cpf: joi.string().required(),
 });
 
+// falta terminar de validar os campos e sanitizar os dados (lembrar do trim() também)
+
 export default newCardSchema;
