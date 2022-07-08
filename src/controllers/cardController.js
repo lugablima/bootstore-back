@@ -1,4 +1,4 @@
-import { findCards } from "../database/dbManager.js";
+import { findCards, createCard } from "../database/dbManager.js";
 
 export async function getCards(req, res) {
   const { user } = res.locals;
@@ -12,4 +12,15 @@ export async function getCards(req, res) {
   }
 }
 
-export function createCard() {}
+export async function createNewCard(req, res) {
+  const { user, card } = res.locals;
+
+  try {
+    await createCard(user, card);
+
+    res.sendStatus(201);
+  } catch (err) {
+    console.error("Error while creating a new card for the user", err.message);
+    res.sendStatus(500);
+  }
+}

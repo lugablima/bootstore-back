@@ -45,3 +45,8 @@ export async function findCards(user) {
   const cards = await db.collection("cards").find({ userId: user._id }).toArray();
   return cards;
 }
+
+export async function createCard(user, card) {
+  // eslint-disable-next-line no-underscore-dangle
+  await db.collection("cards").insertOne({ ...card, userId: user._id });
+}
