@@ -1,6 +1,8 @@
+// eslint-disable-next-line import/no-unresolved
 import jwt from "jsonwebtoken";
 import { findSession, findUser } from "../database/dbManager.js";
 
+// eslint-disable-next-line consistent-return
 export default async function validateToken(req, res, next) {
   try {
     const { authorization } = req.headers;
@@ -17,6 +19,7 @@ export default async function validateToken(req, res, next) {
     }
 
     const secret = process.env.JWT_SECRET;
+    // eslint-disable-next-line consistent-return
     await jwt.verify(token, secret, (err, decoded) => {
       if (err) {
         return res.status(500).send("Invalid token.");
@@ -34,7 +37,8 @@ export default async function validateToken(req, res, next) {
       return res.sendStatus(401);
     }
 
-    res.locals.token = session.token;
+    // res.locals.token = session.token;
+    res.locals.user = userExist;
 
     next();
   } catch (err) {

@@ -1,4 +1,5 @@
 import bcrypt from "bcrypt";
+// eslint-disable-next-line import/no-unresolved
 import jwt from "jsonwebtoken";
 import { db } from "./mongodb.js";
 
@@ -37,4 +38,10 @@ export async function createSession(userId) {
 export async function findSession(token) {
   const user = await db.collection("sessions").findOne({ token });
   return user;
+}
+
+export async function findCards(user) {
+  /* eslint-disable-next-line */
+  const cards = await db.collection("cards").find({ userId: user._id }).toArray();
+  return cards;
 }
