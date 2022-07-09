@@ -4,7 +4,7 @@ export function registerUser(req, res, next) {
   try {
     const { user } = res.locals;
 
-    createUser(user, res);
+    createUser(user);
 
     res.sendStatus(201);
   } catch (err) {
