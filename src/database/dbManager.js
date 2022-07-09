@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { db } from "./mongodb.js";
+import { db, ObjectId } from "./mongodb.js";
 
 const DAYS_10 = 60 * 60 * 24 * 10;
 
@@ -37,4 +37,19 @@ export async function createSession(userId) {
 export async function findSession(token) {
   const user = await db.collection("sessions").findOne({ token });
   return user;
+}
+
+export async function createProduct(product) {
+  const productId = await db.collection("products").insertOne(product);
+  return productId;
+}
+
+export async function findProductById(productId) {
+  const product = await db.collection("products").findOne({ _id: ObjectId(productId) });
+  return product;
+}
+
+export async function listProducts() {
+  const products = await db.collection("products").find().toArray();
+  return products;
 }
