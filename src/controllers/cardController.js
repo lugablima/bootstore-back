@@ -25,7 +25,6 @@ export async function createNewCard(req, res) {
   }
 }
 
-// eslint-disable-next-line consistent-return
 export async function deleteCard(req, res) {
   const { user } = res.locals;
   const { cardId } = req.params;

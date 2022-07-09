@@ -2,7 +2,6 @@ import cardValidator from "card-validator";
 import newCardSchema from "../schemas/cardSchema.js";
 import { cardAlreadyExist } from "../database/dbManager.js";
 
-// eslint-disable-next-line consistent-return
 export default async function validateCard(req, res, next) {
   const { user } = res.locals;
   const card = req.body;
@@ -12,6 +11,9 @@ export default async function validateCard(req, res, next) {
   if (error) {
     return res.status(422).send(error.details.map((err) => ({ message: err.message })));
   }
+
+  card.card_number = card.card_number.trim();
+  card.owner_name = card.owner_name.trim();
 
   const numberValidation = cardValidator.number(card.card_number);
   const expirationDate = cardValidator.expirationDate(card.validity);
@@ -26,7 +28,6 @@ export default async function validateCard(req, res, next) {
 
   if (!isValidCard) return res.status(422).send("Invalid card!");
 
-  // eslint-disable-next-line no-underscore-dangle
   const cardExists = await cardAlreadyExist(user._id, card.card_number);
 
   if (cardExists) return res.status(409).send("This card is already registered!");
