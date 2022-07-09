@@ -60,3 +60,8 @@ export async function findCard(id, user) {
 export async function deleteOneCard(card) {
   await db.collection("cards").deleteOne(card);
 }
+
+export async function cardAlreadyExist(userId, cardNumber) {
+  const card = await db.collection("cards").findOne({ userId, card_number: cardNumber });
+  return card;
+}

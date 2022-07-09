@@ -25,7 +25,7 @@ export default async function validateToken(req, res, next) {
         return res.status(500).send("Invalid token.");
       }
       const { exp } = decoded;
-      if (Date.now() >= exp) {
+      if (Date.now() / 1000 >= exp) {
         return res.status(401).send("Token expired.");
       }
     });
