@@ -39,6 +39,29 @@ export async function findSession(token) {
   return user;
 }
 
+export async function findCards(user) {
+  const cards = await db.collection("cards").find({ userId: user._id }).toArray();
+  return cards;
+}
+
+export async function createCard(user, card) {
+  await db.collection("cards").insertOne({ ...card, userId: user._id });
+}
+
+export async function findCard(id, user) {
+  const card = await db.collection("cards").findOne({ _id: new ObjectId(id), userId: user._id });
+  return card;
+}
+
+export async function deleteOneCard(card) {
+  await db.collection("cards").deleteOne(card);
+}
+
+export async function cardAlreadyExist(userId, cardNumber) {
+  const card = await db.collection("cards").findOne({ userId, card_number: cardNumber });
+  return card;
+}
+
 export async function createProduct(product) {
   const productId = await db.collection("products").insertOne(product);
   return productId;
