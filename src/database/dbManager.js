@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import dayjs from "dayjs";
 import { db, ObjectId } from "./mongodb.js";
 
 const DAYS_10 = 60 * 60 * 24 * 10;
@@ -45,7 +46,7 @@ export async function findCards(user) {
 }
 
 export async function createCard(user, card) {
-  await db.collection("cards").insertOne({ ...card, userId: user._id });
+  await db.collection("cards").insertOne({ ...card, userId: user._id, date: dayjs().format("DD/MM/YYYY HH:mm") });
 }
 
 export async function findCard(id, user) {
