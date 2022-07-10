@@ -62,3 +62,18 @@ export async function cardAlreadyExist(userId, cardNumber) {
   const card = await db.collection("cards").findOne({ userId, card_number: cardNumber });
   return card;
 }
+
+export async function createProduct(product) {
+  const productId = await db.collection("products").insertOne(product);
+  return productId;
+}
+
+export async function findProductById(productId) {
+  const product = await db.collection("products").findOne({ _id: ObjectId(productId) });
+  return product;
+}
+
+export async function listProducts() {
+  const products = await db.collection("products").find().toArray();
+  return products;
+}
