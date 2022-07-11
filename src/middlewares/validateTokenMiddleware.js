@@ -5,7 +5,6 @@ export default async function validateToken(req, res, next) {
   try {
     const { authorization } = req.headers;
     const token = authorization?.replace("Bearer ", "");
-
     if (!token) {
       return res.status(401).send("Token is empty.");
     }
@@ -16,17 +15,18 @@ export default async function validateToken(req, res, next) {
       return res.status(401).send("Invalid token.");
     }
 
-    const secret = process.env.JWT_SECRET;
-
-    await jwt.verify(token, secret, (err, decoded) => {
-      if (err) {
-        return res.status(500).send("Invalid token.");
-      }
+    try {
+      const secret = process.env.JWT_SECRET;
+      const decoded = await jwt.verify(token, secret);
       const { exp } = decoded;
       if (Date.now() / 1000 >= exp) {
         return res.status(401).send("Token expired.");
       }
-    });
+    } catch (err) {
+      if (err) {
+        return res.status(500).send("Invalid token.");
+      }
+    }
 
     const query = { _id: session.userId };
     const userExist = await findUser(query, res);
@@ -34,8 +34,7 @@ export default async function validateToken(req, res, next) {
     if (!userExist) {
       return res.sendStatus(401);
     }
-
-    // res.locals.token = session.token;
+    
     res.locals.user = userExist;
 
     next();

@@ -22,6 +22,11 @@ export async function createUser(user) {
   await db.collection("users").insertOne(newUser);
 }
 
+export async function updateUser(oldUser, newInfo) {
+  const queryResult = await db.collection("users").updateOne({ email: oldUser.email }, { $set: { ...newInfo } });
+  return queryResult;
+}
+
 export async function createSession(userId) {
   const secret = process.env.JWT_SECRET;
   const exp = Date.now() / 1000 + DAYS_10;
