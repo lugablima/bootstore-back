@@ -11,3 +11,9 @@ export const userSchema = joi.object({
   email: joi.string().email().required(),
   password: joi.string().required(),
 });
+
+export const modifiedUserSchema = joi.object({
+  name: joi.string(),
+  email: joi.string().email(),
+  password: joi.string().min(6),
+});
