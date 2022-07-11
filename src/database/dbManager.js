@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import dayjs from "dayjs";
 import { db, ObjectId } from "./mongodb.js";
 
 const DAYS_10 = 60 * 60 * 24 * 10;
@@ -44,6 +45,29 @@ export async function findSession(token) {
   return user;
 }
 
+export async function findCards(user) {
+  const cards = await db.collection("cards").find({ userId: user._id }).toArray();
+  return cards;
+}
+
+export async function createCard(user, card) {
+  await db.collection("cards").insertOne({ ...card, userId: user._id, date: dayjs().format("DD/MM/YYYY HH:mm") });
+}
+
+export async function findCard(id, user) {
+  const card = await db.collection("cards").findOne({ _id: new ObjectId(id), userId: user._id });
+  return card;
+}
+
+export async function deleteOneCard(card) {
+  await db.collection("cards").deleteOne(card);
+}
+
+export async function cardAlreadyExist(userId, cardNumber) {
+  const card = await db.collection("cards").findOne({ userId, cardNumber });
+  return card;
+}
+
 export async function createProduct(product) {
   const productId = await db.collection("products").insertOne(product);
   return productId;
@@ -57,4 +81,13 @@ export async function findProductById(productId) {
 export async function listProducts() {
   const products = await db.collection("products").find().toArray();
   return products;
+}
+
+export async function createOrder(user, order) {
+  await db.collection("orders").insertOne({ ...order, userId: user._id, date: dayjs().format("DD/MM/YYYY HH:mm") });
+}
+
+export async function findOrder(user, order) {
+  const orderFinded = db.collection("orders").findOne({ ...order, userId: user._id });
+  return orderFinded;
 }

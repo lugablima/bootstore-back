@@ -34,7 +34,7 @@ export default async function validateToken(req, res, next) {
     if (!userExist) {
       return res.sendStatus(401);
     }
-
+    
     res.locals.user = userExist;
 
     next();
