@@ -12,12 +12,13 @@ export default async function validateCard(req, res, next) {
     return res.status(422).send(error.details.map((err) => ({ message: err.message })));
   }
 
-  card.card_number = card.card_number.trim();
-  card.owner_name = card.owner_name.trim();
+  card.cardNumber = card.cardNumber.trim();
+  card.ownerName = card.ownerName.trim();
+  card.description = card.description.trim();
 
-  const numberValidation = cardValidator.number(card.card_number);
+  const numberValidation = cardValidator.number(card.cardNumber);
   const expirationDate = cardValidator.expirationDate(card.validity);
-  const cvv = cardValidator.cvv(card.security_code);
+  const cvv = cardValidator.cvv(card.securityCode);
 
   const isValidCard =
     numberValidation.isPotentiallyValid &&
@@ -28,7 +29,7 @@ export default async function validateCard(req, res, next) {
 
   if (!isValidCard) return res.status(422).send("Invalid card!");
 
-  const cardExists = await cardAlreadyExist(user._id, card.card_number);
+  const cardExists = await cardAlreadyExist(user._id, card.cardNumber);
 
   if (cardExists) return res.status(409).send("This card is already registered!");
 
