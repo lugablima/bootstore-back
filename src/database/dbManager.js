@@ -77,3 +77,12 @@ export async function listProducts() {
   const products = await db.collection("products").find().toArray();
   return products;
 }
+
+export async function createOrder(user, order) {
+  await db.collection("orders").insertOne({ ...order, userId: user._id, date: dayjs().format("DD/MM/YYYY HH:mm") });
+}
+
+export async function findOrder(user, order) {
+  const orderFinded = db.collection("orders").findOne({ ...order, userId: user._id });
+  return orderFinded;
+}
