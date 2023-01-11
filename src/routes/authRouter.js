@@ -6,10 +6,10 @@ import { registerUser, logInUser, modifyUser } from "../controllers/authControll
 
 import validateToken from "../middlewares/validateTokenMiddleware.js";
 
-const router = Router();
+const authRouter = Router();
 
-router.post("/signup", validateNewUser, registerUser);
-router.post("/login", validateUser, logInUser);
-router.put("/user", validateToken, validateUserModification, modifyUser);
+authRouter.post("/signup", validateNewUser, registerUser);
+authRouter.post("/login", validateUser, logInUser);
+authRouter.put("/user", validateToken, validateUserModification, modifyUser);
 
-export default router;
+export default authRouter;

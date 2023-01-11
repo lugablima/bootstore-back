@@ -4,10 +4,10 @@ import validateProduct from "../middlewares/validateProductMiddleware.js";
 
 import { registerProduct, findProduct, getProducts } from "../controllers/productController.js";
 
-const router = express.Router();
+const productsRouter = express.Router();
 
-router.post("/product", validateProduct, registerProduct);
-router.get("/products", getProducts);
-router.get("/product/:productId", findProduct);
+productsRouter.post("/product", validateProduct, registerProduct);
+productsRouter.get("/products", getProducts);
+productsRouter.get("/product/:productId", findProduct);
 
-export default router;
+export default productsRouter;

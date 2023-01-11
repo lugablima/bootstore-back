@@ -3,8 +3,8 @@ import validateToken from "../middlewares/validateTokenMiddleware.js";
 import validateOrder from "../middlewares/validateOrderMiddleware.js";
 import createNewOrder from "../controllers/orderController.js";
 
-const router = Router();
+const ordersRouter = Router();
 
-router.post("/orders", validateToken, validateOrder, createNewOrder);
+ordersRouter.post("/orders", validateToken, validateOrder, createNewOrder);
 
-export default router;
+export default ordersRouter;
