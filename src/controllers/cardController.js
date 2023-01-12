@@ -1,15 +1,12 @@
-import { findCards, createCard, findCard, deleteOneCard } from "../database/dbManager.js";
+import { createCard, findCard, deleteOneCard } from "../database/dbManager.js";
+import * as cardsService from "../services/cardsService.js";
 
 export async function getCards(req, res) {
   const { user } = res.locals;
-  try {
-    const cards = await findCards(user);
 
-    res.status(200).send(cards);
-  } catch (err) {
-    console.error("Error while getting cards of the user", err.message);
-    res.sendStatus(500);
-  }
+  const cards = await cardsService.findCards(user);
+
+  res.status(200).send(cards);
 }
 
 export async function createNewCard(req, res) {
