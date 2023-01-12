@@ -76,3 +76,12 @@ export async function logInUser(user) {
 
   return data;
 }
+
+export async function modifyUser(user, newUser) {
+  await userRepository.updateOne(user, newUser);
+
+  const modifiedUser = await userRepository.findOne({ _id: user._id });
+  delete modifiedUser._id;
+
+  return modifiedUser;
+}

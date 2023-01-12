@@ -1,4 +1,3 @@
-import { updateUser, findUser } from "../database/dbManager.js";
 import * as authService from "../services/authService.js";
 
 export async function registerUser(req, res) {
@@ -17,19 +16,11 @@ export async function logInUser(req, res) {
   res.status(200).send(data);
 }
 
-export async function modifyUser(req, res, next) {
-  try {
-    const { user, modifiedUser } = res.locals;
+export async function modifyUser(req, res) {
+  const { user } = res.locals;
+  const newUser = req.body;
 
-    updateUser(user, modifiedUser);
+  const modifiedUser = await authService.modifyUser(user, newUser);
 
-    const query = { _id: user._id };
-    const newUser = await findUser(query);
-    delete newUser._id;
-
-    res.status(200).send(newUser);
-  } catch (err) {
-    console.error("Error while modifying user", err.message);
-    next(err);
-  }
+  res.status(200).send(modifiedUser);
 }

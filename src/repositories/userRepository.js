@@ -8,3 +8,7 @@ export async function findOne(query) {
 export async function insertOne(user) {
   await db.collection("users").insertOne(user);
 }
+
+export async function updateOne(user, newInfo) {
+  await db.collection("users").updateOne({ email: user.email }, { $set: { ...newInfo } });
+}
