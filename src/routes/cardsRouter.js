@@ -1,5 +1,5 @@
 import { Router } from "express";
-import validateToken from "../middlewares/validateTokenMiddleware.js";
+import validateToken from "../middlewares/authenticationMiddleware.js";
 import validateCard from "../middlewares/validateCardMiddleware.js";
 import { getCards, createNewCard, deleteCard } from "../controllers/cardController.js";
 
