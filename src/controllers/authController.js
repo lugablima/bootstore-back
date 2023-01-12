@@ -1,16 +1,12 @@
-import { createUser, createSession, updateUser, findUser } from "../database/dbManager.js";
+import { createSession, updateUser, findUser } from "../database/dbManager.js";
+import * as authService from "../services/authService.js";
 
-export function registerUser(req, res, next) {
-  try {
-    const { user } = res.locals;
+export async function registerUser(req, res) {
+  const user = req.body;
 
-    createUser(user);
+  await authService.registerUser(user);
 
-    res.sendStatus(201);
-  } catch (err) {
-    console.error("Error while creating a new user", err.message);
-    next(err);
-  }
+  res.status(201).send("User successfully registered!");
 }
 
 export async function logInUser(req, res, next) {
