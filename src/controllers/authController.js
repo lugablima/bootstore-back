@@ -1,4 +1,4 @@
-import { createSession, updateUser, findUser } from "../database/dbManager.js";
+import { updateUser, findUser } from "../database/dbManager.js";
 import * as authService from "../services/authService.js";
 
 export async function registerUser(req, res) {
@@ -9,21 +9,12 @@ export async function registerUser(req, res) {
   res.status(201).send("User successfully registered!");
 }
 
-export async function logInUser(req, res, next) {
-  try {
-    const { name, _id } = res.locals.user;
-    const token = await createSession(_id);
+export async function logInUser(req, res) {
+  const user = req.body;
 
-    const data = {
-      name,
-      token,
-    };
+  const data = await authService.logInUser(user);
 
-    res.status(201).send(data);
-  } catch (err) {
-    console.error("Error while creating a new session", err.message);
-    next(err);
-  }
+  res.status(200).send(data);
 }
 
 export async function modifyUser(req, res, next) {

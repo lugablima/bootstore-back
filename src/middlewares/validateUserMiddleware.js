@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 
 import { findUser } from "../database/dbManager.js";
-import { signUpSchema, userSchema, modifiedUserSchema } from "../schemas/userSchema.js";
+import { signUpSchema, signInSchema, modifiedUserSchema } from "../schemas/userSchema.js";
 
 export async function validateNewUser(req, res, next) {
   try {
@@ -34,7 +34,7 @@ export async function validateUser(req, res, next) {
   try {
     const user = req.body;
 
-    const validate = userSchema.validate(user, {
+    const validate = signInSchema.validate(user, {
       abortEarly: false,
     });
 
