@@ -11,7 +11,7 @@ import validateToken from "../middlewares/validateTokenMiddleware.js";
 const authRouter = Router();
 
 authRouter.post("/sign-up", validateSchema(signUpSchema), registerUser);
-authRouter.post("/login", validateUser, logInUser);
+authRouter.post("/sign-in", validateUser, logInUser);
 authRouter.put("/user", validateToken, validateUserModification, modifyUser);
 
 export default authRouter;
