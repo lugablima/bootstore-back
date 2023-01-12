@@ -9,16 +9,11 @@ export async function registerProduct(req, res) {
   res.status(201).send("Product successfully registered.");
 }
 
-export async function findProduct(req, res, next) {
-  try {
-    const { productId } = req.params;
-    const product = await findProductById(productId);
+export async function findProduct(req, res) {
+  const { productId } = req.params;
+  const product = await findProductById(productId);
 
-    res.status(200).send(product);
-  } catch (err) {
-    console.error("Error while searching for a product", err.message);
-    next(err);
-  }
+  res.status(200).send(product);
 }
 
 export async function getProducts(req, res) {

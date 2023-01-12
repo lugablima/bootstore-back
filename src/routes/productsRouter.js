@@ -7,6 +7,6 @@ const productsRouter = Router();
 
 productsRouter.post("/products", validateSchema(productSchema), registerProduct);
 productsRouter.get("/products", getProducts);
-productsRouter.get("/product/:productId", findProduct);
+productsRouter.get("/products/:productId", findProduct);
 
 export default productsRouter;

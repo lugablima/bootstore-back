@@ -1,4 +1,9 @@
-import { db } from "../database/mongodb.js";
+import { db, ObjectId } from "../database/mongodb.js";
+
+export async function findOneById(productId) {
+  const product = await db.collection("products").findOne({ _id: new ObjectId(productId) });
+  return product;
+}
 
 export async function findMany(query = {}) {
   const products = await db.collection("products").find(query).toArray();
