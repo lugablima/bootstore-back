@@ -1,4 +1,4 @@
-import { createCard, findCard, deleteOneCard } from "../database/dbManager.js";
+import { findCard, deleteOneCard } from "../database/dbManager.js";
 import * as cardsService from "../services/cardsService.js";
 
 export async function getCards(req, res) {
@@ -9,17 +9,13 @@ export async function getCards(req, res) {
   res.status(200).send(cards);
 }
 
-export async function createNewCard(req, res) {
-  const { user, card } = res.locals;
+export async function createCard(req, res) {
+  const { user } = res.locals;
+  const card = req.body;
 
-  try {
-    await createCard(user, card);
+  await cardsService.createCard(user._id, card);
 
-    res.sendStatus(201);
-  } catch (err) {
-    console.error("Error while creating a new card for the user", err.message);
-    res.sendStatus(500);
-  }
+  res.status(201).send("Card successfully registered.");
 }
 
 export async function deleteCard(req, res) {
