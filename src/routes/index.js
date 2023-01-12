@@ -2,7 +2,7 @@ import { Router } from "express";
 import authRouter from "./authRouter.js";
 import cardsRouter from "./cardsRouter.js";
 import ordersRouter from "./ordersRouter.js";
-import productsRouter from "./productRouter.js";
+import productsRouter from "./productsRouter.js";
 
 const router = Router();
 
