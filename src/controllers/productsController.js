@@ -1,17 +1,12 @@
-import { createProduct, findProductById } from "../database/dbManager.js";
+import { findProductById } from "../database/dbManager.js";
 import * as productsService from "../services/productsService.js";
 
-export async function registerProduct(req, res, next) {
-  try {
-    const { product } = res.locals;
+export async function registerProduct(req, res) {
+  const product = req.body;
 
-    await createProduct(product);
+  await productsService.registerProduct(product);
 
-    res.sendStatus(201);
-  } catch (err) {
-    console.error("Error while registering a new product", err.message);
-    next(err);
-  }
+  res.status(201).send("Product successfully registered.");
 }
 
 export async function findProduct(req, res, next) {

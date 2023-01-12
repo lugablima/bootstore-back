@@ -1,12 +1,11 @@
 import { Router } from "express";
-
-import validateProduct from "../middlewares/validateProductMiddleware.js";
-
+import validateSchema from "../middlewares/schemaValidator.js";
+import productSchema from "../schemas/productSchema.js";
 import { registerProduct, findProduct, getProducts } from "../controllers/productsController.js";
 
 const productsRouter = Router();
 
-productsRouter.post("/product", validateProduct, registerProduct);
+productsRouter.post("/products", validateSchema(productSchema), registerProduct);
 productsRouter.get("/products", getProducts);
 productsRouter.get("/product/:productId", findProduct);
 
