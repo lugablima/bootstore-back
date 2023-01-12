@@ -1,4 +1,5 @@
-import { createProduct, findProductById, listProducts } from "../database/dbManager.js";
+import { createProduct, findProductById } from "../database/dbManager.js";
+import * as productsService from "../services/productsService.js";
 
 export async function registerProduct(req, res, next) {
   try {
@@ -25,13 +26,8 @@ export async function findProduct(req, res, next) {
   }
 }
 
-export async function getProducts(req, res, next) {
-  try {
-    const products = await listProducts();
+export async function getProducts(req, res) {
+  const products = await productsService.getProducts();
 
-    res.status(200).send(products);
-  } catch (err) {
-    console.error("Error while getting products", err.message);
-    next(err);
-  }
+  res.status(200).send(products);
 }
