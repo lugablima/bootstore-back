@@ -12,7 +12,7 @@ export const signInSchema = joi.object({
   password: joi.string().trim().required(),
 });
 
-export const modifiedUserSchema = joi.object({
+export const modifyUserSchema = joi.object({
   name: joi.string(),
   email: joi.string().email(),
   password: joi.string().min(6),
