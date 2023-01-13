@@ -1,6 +1,8 @@
 import cardValidator from "card-validator";
+import { ObjectId } from "../database/mongodb.js";
 import conflictError from "../errors/conflictError.js";
 import unauthorizedError from "../errors/unauthorizedError.js";
+import notFoundError from "../errors/notFoundError.js";
 import * as cardRepository from "../repositories/cardRepository.js";
 
 function sanitizeCard(card) {
@@ -39,6 +41,14 @@ async function validateIfTheCardDoesNotExist(userId, card) {
   }
 }
 
+async function validateIfTheCardExists(userId, cardId) {
+  const card = await cardRepository.findOne({ _id: new ObjectId(cardId), userId });
+
+  if (!card) {
+    throw notFoundError("Card not found.");
+  }
+}
+
 export async function findCards(user) {
   const cards = await cardRepository.findMany({ userId: user._id });
 
@@ -53,4 +63,10 @@ export async function createCard(userId, card) {
   await validateIfTheCardDoesNotExist(userId, sanitizedCard);
 
   await cardRepository.insertOne(userId, card);
+}
+
+export async function deleteCard(userId, cardId) {
+  await validateIfTheCardExists(userId, cardId);
+
+  await cardRepository.deleteOne({ _id: new ObjectId(cardId) });
 }

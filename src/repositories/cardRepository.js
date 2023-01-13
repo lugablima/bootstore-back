@@ -14,3 +14,7 @@ export async function findMany(query) {
 export async function insertOne(userId, card) {
   await db.collection("cards").insertOne({ ...card, userId, date: dayjs().format("DD/MM/YYYY HH:mm") });
 }
+
+export async function deleteOne(card) {
+  await db.collection("cards").deleteOne(card);
+}

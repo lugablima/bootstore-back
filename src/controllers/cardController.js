@@ -1,4 +1,3 @@
-import { findCard, deleteOneCard } from "../database/dbManager.js";
 import * as cardsService from "../services/cardsService.js";
 
 export async function getCards(req, res) {
@@ -22,16 +21,7 @@ export async function deleteCard(req, res) {
   const { user } = res.locals;
   const { cardId } = req.params;
 
-  try {
-    const card = await findCard(cardId, user);
+  await cardsService.deleteCard(user._id, cardId);
 
-    if (!card) return res.status(401).send("Invalid user or card!");
-
-    await deleteOneCard(card);
-
-    res.sendStatus(200);
-  } catch (err) {
-    console.error("Error deleting user card", err.message);
-    res.sendStatus(500);
-  }
+  res.sendStatus(200);
 }
