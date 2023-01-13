@@ -41,7 +41,7 @@ async function validateIfTheCardDoesNotExist(userId, card) {
   }
 }
 
-async function validateIfTheCardExists(userId, cardId) {
+export async function validateIfTheCardExists(userId, cardId) {
   const card = await cardRepository.findOne({ _id: new ObjectId(cardId), userId });
 
   if (!card) {

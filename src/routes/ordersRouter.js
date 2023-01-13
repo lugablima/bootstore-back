@@ -1,10 +1,10 @@
 import { Router } from "express";
-import validateToken from "../middlewares/authenticationMiddleware.js";
-import validateOrder from "../middlewares/validateOrderMiddleware.js";
+import validateSchema from "../middlewares/schemaValidator.js";
+import orderSchema from "../schemas/orderSchema.js";
 import createNewOrder from "../controllers/orderController.js";
 
 const ordersRouter = Router();
 
-ordersRouter.post("/orders", validateToken, validateOrder, createNewOrder);
+ordersRouter.post("/orders", validateSchema(orderSchema), createNewOrder);
 
 export default ordersRouter;
