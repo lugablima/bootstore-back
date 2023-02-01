@@ -10,5 +10,8 @@ export async function insertOne(user) {
 }
 
 export async function updateOne(user, newInfo) {
-  await db.collection("users").updateOne({ email: user.email }, { $set: { ...newInfo } });
+  const { value: updatedUser } = await db
+    .collection("users")
+    .findOneAndUpdate({ email: user.email }, { $set: { ...newInfo } }, { returnDocument: "after" });
+  return updatedUser;
 }

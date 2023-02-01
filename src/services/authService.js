@@ -78,10 +78,9 @@ export async function logInUser(user) {
 }
 
 export async function modifyUser(user, newUser) {
-  await userRepository.updateOne(user, newUser);
-
-  const modifiedUser = await userRepository.findOne({ _id: user._id });
+  const modifiedUser = await userRepository.updateOne(user, newUser);
   delete modifiedUser._id;
+  delete modifiedUser.password;
 
   return modifiedUser;
 }
