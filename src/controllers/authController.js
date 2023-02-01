@@ -1,48 +1,26 @@
-import { createUser, createSession, updateUser, findUser } from "../database/dbManager.js";
+import * as authService from "../services/authService.js";
 
-export function registerUser(req, res, next) {
-  try {
-    const { user } = res.locals;
+export async function registerUser(req, res) {
+  const user = req.body;
 
-    createUser(user);
+  await authService.registerUser(user);
 
-    res.sendStatus(201);
-  } catch (err) {
-    console.error("Error while creating a new user", err.message);
-    next(err);
-  }
+  res.status(201).send("User successfully registered!");
 }
 
-export async function logInUser(req, res, next) {
-  try {
-    const { name, _id } = res.locals.user;
-    const token = await createSession(_id);
+export async function logInUser(req, res) {
+  const user = req.body;
 
-    const data = {
-      name,
-      token,
-    };
+  const data = await authService.logInUser(user);
 
-    res.status(201).send(data);
-  } catch (err) {
-    console.error("Error while creating a new session", err.message);
-    next(err);
-  }
+  res.status(200).send(data);
 }
 
-export async function modifyUser(req, res, next) {
-  try {
-    const { user, modifiedUser } = res.locals;
+export async function modifyUser(req, res) {
+  const { user } = res.locals;
+  const newUser = req.body;
 
-    updateUser(user, modifiedUser);
+  const modifiedUser = await authService.modifyUser(user, newUser);
 
-    const query = { _id: user._id };
-    const newUser = await findUser(query);
-    delete newUser._id;
-
-    res.status(200).send(newUser);
-  } catch (err) {
-    console.error("Error while modifying user", err.message);
-    next(err);
-  }
+  res.status(200).send(modifiedUser);
 }

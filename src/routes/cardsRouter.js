@@ -1,12 +1,12 @@
 import { Router } from "express";
-import validateToken from "../middlewares/validateTokenMiddleware.js";
-import validateCard from "../middlewares/validateCardMiddleware.js";
-import { getCards, createNewCard, deleteCard } from "../controllers/cardController.js";
+import { getCards, createCard, deleteCard } from "../controllers/cardController.js";
+import validateSchema from "../middlewares/schemaValidator.js";
+import cardSchema from "../schemas/cardSchema.js";
 
-const router = Router();
+const cardsRouter = Router();
 
-router.get("/cards", validateToken, getCards);
-router.post("/cards", validateToken, validateCard, createNewCard);
-router.delete("/cards/:cardId", validateToken, deleteCard);
+cardsRouter.get("/cards", getCards);
+cardsRouter.post("/cards", validateSchema(cardSchema), createCard);
+cardsRouter.delete("/cards/:cardId", deleteCard);
 
-export default router;
+export default cardsRouter;

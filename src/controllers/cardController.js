@@ -1,44 +1,27 @@
-import { findCards, createCard, findCard, deleteOneCard } from "../database/dbManager.js";
+import * as cardsService from "../services/cardsService.js";
 
 export async function getCards(req, res) {
   const { user } = res.locals;
-  try {
-    const cards = await findCards(user);
 
-    res.status(200).send(cards);
-  } catch (err) {
-    console.error("Error while getting cards of the user", err.message);
-    res.sendStatus(500);
-  }
+  const cards = await cardsService.findCards(user);
+
+  res.status(200).send(cards);
 }
 
-export async function createNewCard(req, res) {
-  const { user, card } = res.locals;
+export async function createCard(req, res) {
+  const { user } = res.locals;
+  const card = req.body;
 
-  try {
-    await createCard(user, card);
+  await cardsService.createCard(user._id, card);
 
-    res.sendStatus(201);
-  } catch (err) {
-    console.error("Error while creating a new card for the user", err.message);
-    res.sendStatus(500);
-  }
+  res.status(201).send("Card successfully registered.");
 }
 
 export async function deleteCard(req, res) {
   const { user } = res.locals;
   const { cardId } = req.params;
 
-  try {
-    const card = await findCard(cardId, user);
+  await cardsService.deleteCard(user._id, cardId);
 
-    if (!card) return res.status(401).send("Invalid user or card!");
-
-    await deleteOneCard(card);
-
-    res.sendStatus(200);
-  } catch (err) {
-    console.error("Error deleting user card", err.message);
-    res.sendStatus(500);
-  }
+  res.sendStatus(200);
 }

@@ -1,9 +1,9 @@
 import joi from "joi";
 
-const newOrderSchema = joi.object({
-  priceTotal: joi.number().positive().required(),
-  productIds: joi.array().items(joi.string()).min(1),
+const orderSchema = joi.object({
+  totalPrice: joi.number().positive().required(),
+  productIds: joi.array().items(joi.string()).min(1).required(),
   cardId: joi.string().trim().required(),
 });
 
-export default newOrderSchema;
+export default orderSchema;

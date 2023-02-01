@@ -1,15 +1,13 @@
 import { Router } from "express";
-
-import { validateNewUser, validateUser, validateUserModification } from "../middlewares/validateUserMiddleware.js";
-
+import validateSchema from "../middlewares/schemaValidator.js";
+import { signInSchema, signUpSchema, modifyUserSchema } from "../schemas/userSchema.js";
 import { registerUser, logInUser, modifyUser } from "../controllers/authController.js";
+import validateToken from "../middlewares/authenticationMiddleware.js";
 
-import validateToken from "../middlewares/validateTokenMiddleware.js";
+const authRouter = Router();
 
-const router = Router();
+authRouter.post("/sign-up", validateSchema(signUpSchema), registerUser);
+authRouter.post("/sign-in", validateSchema(signInSchema), logInUser);
+authRouter.patch("/users", validateToken, validateSchema(modifyUserSchema), modifyUser);
 
-router.post("/signup", validateNewUser, registerUser);
-router.post("/login", validateUser, logInUser);
-router.put("/user", validateToken, validateUserModification, modifyUser);
-
-export default router;
+export default authRouter;
