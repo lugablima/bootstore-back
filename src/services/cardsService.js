@@ -9,7 +9,7 @@ function sanitizeCard(card) {
   const sanitizedCard = {
     ...card,
     cardNumber: card.cardNumber.trim(),
-    ownerName: card.ownerName.trim(),
+    cardholderName: card.cardholderName.trim(),
     description: card.description.trim(),
   };
 
@@ -18,7 +18,7 @@ function sanitizeCard(card) {
 
 function validateCardOrFail(card) {
   const numberValidation = cardValidator.number(card.cardNumber);
-  const expirationDate = cardValidator.expirationDate(card.validity);
+  const expirationDate = cardValidator.expirationDate(card.expirationDate);
   const cvv = cardValidator.cvv(card.securityCode);
 
   const isValidCard =

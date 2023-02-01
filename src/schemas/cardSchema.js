@@ -8,9 +8,9 @@ const regexCpf = /^[0-9]{3}\.[0-9]{3}\.[0-9]{3}-[0-9]{2}$/;
 
 const cardSchema = joi.object({
   cardNumber: joi.string().trim().required(),
-  validity: joi.date().format("MM/YY").required(),
+  expirationDate: joi.date().format("MM/YY").required(),
   securityCode: joi.string().alphanum().min(3).required(),
-  ownerName: joi.string().pattern(regexName).required(),
+  cardholderName: joi.string().pattern(regexName).required(),
   cpf: joi.string().pattern(regexCpf).required(),
   description: joi.string().trim().required(),
 });
