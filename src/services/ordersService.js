@@ -1,7 +1,6 @@
 import { validateIfTheCardExists } from "./cardsService.js";
 import * as orderRepository from "../repositories/orderRepository.js";
 
-// eslint-disable-next-line import/prefer-default-export
 export async function createNewOrder(userId, order) {
   await validateIfTheCardExists(userId, order.cardId);
 
